@@ -1,0 +1,9 @@
+.main_container {
+    display: flex;
+    border: 1px solid orange;
+}
+.items_container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 80%;
+}
