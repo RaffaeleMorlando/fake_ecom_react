@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { createItem , updateItem } from '../../actions/items.js';
 import { useDispatch , useSelector } from 'react-redux';
 import './Form.scss'
+import { useParams } from 'react-router-dom';
 
-const Form = ({ currentId, setCurrentId }) => {
+const Form = () => {
 
   const [itemData, setItemData] = useState({
     name: '',
@@ -12,7 +13,9 @@ const Form = ({ currentId, setCurrentId }) => {
     description: ''
   })
 
-  const items = useSelector(state => currentId ? state.items.find((item) => item._id === currentId) : null);
+  const currentId = useParams();
+
+  const items = useSelector(state => currentId ? state.items.items.find((item) => item._id === currentId.id) : null);
 
   useEffect(() => {
 
@@ -39,7 +42,6 @@ const Form = ({ currentId, setCurrentId }) => {
       description: ''
     })
 
-    setCurrentId(null);
   }
 
   return (

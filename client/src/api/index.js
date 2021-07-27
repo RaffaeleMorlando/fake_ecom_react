@@ -1,28 +1,19 @@
 import axios from 'axios';
 
-const url = 'http://localhost:7000/items';
+const url = 'http://localhost:7000';
 
 const API =  axios.create({
-  baseURL: url
+  baseURL: url,
+  withCredentials: true
 });
 
-API.interceptors.request.use((req) => {
-  if(localStorage.getItem('user')) {
-    req.headers.Authorization = `Bearer ${JSON.parse(localStorage.getItem('user')).token }`;
-  }
+export const getItems = () => API.get('/items');
+export const getItemById = (id) => API.get(`/items/${id}`);
+export const createItem = (newItem) => API.post('/items',newItem);
+export const updateItem = (id,updatedItem) => API.patch(`/items/${id}`,updatedItem);
+export const deleteItem = (id) => API.delete(`/items/${id}`);
 
-  return req;
-});
-
-
-export const getItems = () => API.get(url);
-export const getItemById = (id) => axios.get(`${url}/${id}`);
-export const createItem = (newItem) => axios.post(url,newItem);
-export const updateItem = (id,updatedItem) => axios.patch(`${url}/${id}`,updatedItem);
-export const deleteItem = (id) => axios.delete(`${url}/${id}`);
-
-const url2 = 'http://localhost:7000/auth';
-
-export const createAccount = (newUser) => axios.post(`${url2}/signup`,newUser);
-export const loginAccount = (user) => axios.post(`${url2}/signin`,user);
+export const createAccount = (newUser) => API.post(`/auth/signup`,newUser);
+export const loginAccount = (user) => API.post(`/auth/signin`,user);
+export const logoutAccount = () => API.get('/auth/signout');
 

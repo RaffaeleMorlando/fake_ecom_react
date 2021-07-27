@@ -1,3 +1,53 @@
-h1 {
-    text-align: center;
+// h1 {
+//     text-align: center;
+// }
+
+.form_container_auth {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 100px);
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 15px 15px;
+    width: 300px;
+    border-radius: 5px;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+    .form-item {
+        display: flex;
+        flex-direction: column;
+        padding: 10px;
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input {
+            padding: 5px 10px;
+        }
+    }
+
+    .container_form_button {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+
+        input[type=submit] {
+            padding: 5px 10px;
+        }
+
+        input[type=button] {
+            background-color: #fff;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            padding: 10px 0;
+        }
+    }
 }

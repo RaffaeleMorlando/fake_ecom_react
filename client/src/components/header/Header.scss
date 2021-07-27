@@ -2,6 +2,20 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-    border: 1px solid blue;
     height: 100px;
+    padding: 15px;
+    background-color: rgb(80, 95, 45);
+    color: #fff;
+
+    .user_box {
+        margin-left: auto;
+        display: flex;
+        // flex-direction: column;
+        // align-items: center;
+        
+        button {
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+    }
 }

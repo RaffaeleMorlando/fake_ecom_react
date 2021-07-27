@@ -1,34 +1,30 @@
 import './App.scss';
-import Header from './components/header/Header.js';
-import Items from './components/items/Items.js';
-import Login from './components/auth/login/Login.js'
-import { Redirect, Route, Switch, useLocation} from "react-router-dom";
-import ItemDetails from './components/ItemDetails/ItemDetails';
+import Login from './containers/Login/Login.js';
+import Home from './containers/Home/Home.js';
+import Item from './containers/Item/Item.js';
+import Create from './containers/Create/Create.js';
+import Edit from './containers/Edit/Edit.js';
+import { Route, Switch} from "react-router-dom";
 
 const App = () => {
 
-  const { pathname } = useLocation();
-  const user = JSON.parse(localStorage.getItem('user'))?.userExist;
-
   return (
     <>
-      { pathname !== '/auth/login' ? <Header /> : null }
       <Switch>
-        {/* <Route path="/" exact component={() => <Redirect to="/items" />} /> */}
-        {
-          user === undefined 
-          ? <Route path="/" exact component={() => <Redirect to="/auth/login" />} />
-          : <Route path="/" exact component={() => <Redirect to="/items" />} />
-        }
-        {/* <Route path="/" exact component={() => <Redirect to="/items" />} /> */}
-        <Route path="/auth/login" exact component={ Login } />
-        <Route path="/items" exact component={ Items } />
-        <Route path="/items/:id" exact component={ ItemDetails } />
+        {/* LOGIN */}
+        <Route path="/login" exact component={ Login } />
+        {/* HOME */}
+        <Route path="/" exact component={ Home } />
+        {/* ITEM */}
+        <Route path="/item/:id" exact component={ Item } />
+        {/* CREATE ITEM */}
+        <Route path="/create" exact component={ Create } />
+        {/* CREATE ITEM */}
+        <Route path="/item/edit/:id" exact component={ Edit } />
       </Switch>
     </>
   );
   
 }
-
 
 export default App;

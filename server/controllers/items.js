@@ -2,20 +2,23 @@ import Item from '../models/item.js'
 
 export const getItems = async (req, res) => {
 
+  const id = req.user._id;
+  
   try {
-
-    const items = await Item.find();
+    
+    const items = await Item.find({id});
     res.status(200).json(items);
 
   } catch (error) {
-    console.log(error.message);
+    console.log(error.message)
   }
 
 }
 
 export const getItemById = async (req, res) => {
-  const {id} = (req.params);
+  
   try {
+    const {id} = (req.params);
     const item = await Item.findById(id);
     res.status(200).json(item);
 

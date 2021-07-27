@@ -1,5 +1,5 @@
 import React from 'react'
-import Form from '../formAuth/FormAuth.js';
+import Form from '../FormAuth/FormAuth.js';
 
 const Login = () => {
   return (

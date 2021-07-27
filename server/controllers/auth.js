@@ -31,8 +31,8 @@ export const createUser = async (req,res) => {
 
 }
 
-export const loginUser = async (req,res) => {
-
+export const loginUser = async (req,res) => { 
+  
   const { email, password } = req.body;
 
   try {
@@ -44,15 +44,33 @@ export const loginUser = async (req,res) => {
     const checkPw =  await bycript.compare(password,userExist.password);
     if(!checkPw) return res.json({message: 'Password incorrect'});
 
+    //GENERATE TOKEN
     const token = jwt.sign({ email: userExist.email, id: userExist._id }, 'test', { expiresIn: '1h' })
 
-    res.status(201).json({userExist,token});
+    //COOKIE OPTIONS
+    const option = {
+      expires: new Date(Date.now() + 3600000),
+      secure: true,
+      httpOnly: true,
+    };
+    //CREATE COOKIE
+    
+    res.cookie('jwt',token,option);
 
+    res.status(201).json({name: userExist.name, id:userExist._id, token});
+    
   } catch (error) {
 
-    console.log(error.message);
     res.json({message: error.message});
 
   }
 
+}
+
+export const logoutUser = async (req,res) => {
+  try {
+    res.status(202).clearCookie('jwt').json({message: 'ACCOUNT LOGOUT'})
+  } catch (error) {
+    res.json(error.message)
+  }
 }

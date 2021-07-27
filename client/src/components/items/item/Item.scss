@@ -1,21 +1,22 @@
 .item {
     height: 500px;
-    border: 1px solid red;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+    margin: 10px;
 
     img {
-        outline: 1px solid blue;
+        border: 1px solid red;
         height: 30%;
         width: 100%;
     }
 
     h1 {
         height: 10%;
-        border: 1px solid green;
+        text-align: center;
     }
 
     h2 {
         height: 10%;
-        border: 1px solid salmon;
+        text-align: center;
     }
 
     .description {
@@ -26,9 +27,12 @@
 
     .button_container {
         height: 20%;
-
-        input {
-
+        display: flex;
+        align-items: center;
+        justify-content: space-around;
+        
+        svg {
+            cursor: pointer;
         }
     }
 }

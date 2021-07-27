@@ -2,8 +2,8 @@ import mongoose from 'mongoose';
 
 // Crea mongoose schema
 const itemSchema = mongoose.Schema({
-  name: String,
-  brand: String,
+  name: {type: String, required: true},
+  brand: {type: String, required: true},
   price: {
     type: Number,
     default: 0
@@ -13,7 +13,8 @@ const itemSchema = mongoose.Schema({
   createdAt: {
     type: Date,
     default: new Date()
-  }
+  },
+  id: String
 })
 
 const Item = mongoose.model('Item',itemSchema);
