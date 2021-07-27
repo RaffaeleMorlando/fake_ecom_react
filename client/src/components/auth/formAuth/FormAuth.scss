@@ -13,11 +13,20 @@ form {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center;
+    // align-items: center;
     padding: 15px 15px;
-    width: 300px;
+    min-width: 300px;
     border-radius: 5px;
     box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+
+    h2 {
+        text-align: center;
+    }
+
+    .field_error {
+        color: red;
+        font-size: 12px;
+    }
 
     .form-item {
         display: flex;
@@ -29,7 +38,14 @@ form {
         }
 
         input {
-            padding: 5px 10px;
+            padding: 5px 5px;
+            border: none;
+            outline: none;
+            background-color: rgb(248, 247, 247);
+        }
+
+        input:focus {
+            border-bottom: 1px solid #505f2d;
         }
     }
 
@@ -37,9 +53,16 @@ form {
         display: flex;
         flex-direction: column;
         justify-content: center;
+        align-items: center;
 
         input[type=submit] {
             padding: 5px 10px;
+            border: none;
+            background-color: #80a030;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            cursor: pointer;
         }
 
         input[type=button] {

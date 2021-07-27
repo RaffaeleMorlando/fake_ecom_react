@@ -14,6 +14,7 @@ const Form = () => {
   })
 
   const currentId = useParams();
+  console.log(currentId);
 
   const items = useSelector(state => currentId ? state.items.items.find((item) => item._id === currentId.id) : null);
 
@@ -29,7 +30,7 @@ const Form = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    currentId ? dispatch(updateItem(currentId, itemData)) : dispatch(createItem(itemData))
+    Object.keys(currentId).length !== 0 ? dispatch(updateItem(currentId, itemData)) : dispatch(createItem(itemData))
     
     clear()
   }

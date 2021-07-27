@@ -29,7 +29,7 @@ export const getItemById = async (req, res) => {
 }
 
 export const createItem = async (req, res) => {
-
+  console.log(req.user);
   const item = req.body;
   const newItem = new Item(item);
 

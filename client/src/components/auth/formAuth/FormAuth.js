@@ -1,88 +1,104 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { createAccount, loginAccount } from '../../../actions/auth.js';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { useFormik } from 'formik';
+import * as yup from 'yup';
 import './FormAuth.scss';
-
 
 
 const FormAuth = () => {
 
-  const onSubmit = () => {
-    console.log('submitted');
-  }
-
-  const formik = useFormik(
-    {
-      initialValues: {
-        name: '',
-        email: '',
-        password: '',
-      },
-      validateOnBlur: true,
-      onSubmit
-  });
-
-
-  const [dataForm, setDataForm] = useState({
-    name: '',
-    email: '',
-    password: ''
-  });
-
-  const [isRegisterd, setIsRegisterd] = useState(false);
+  const pathName = useLocation().pathname;
+  const [dataForm, setDataForm] = useState({email: '', password: ''});
+  const [isRegistered,setIsRegisterd] = useState(false);
+  
   const [verify, setVerify] = useState(false);
-
-
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    if(isRegisterd) {
-      dispatch(loginAccount(dataForm, history))
+  const onSubmit = () => {
+    if(pathName === '/login') {
+      dispatch(loginAccount(formik.values, history))
       setVerify(true)
     } else {
-      dispatch(createAccount(dataForm, history));
+      dispatch(createAccount(formik.values, history));
+      setVerify(true)
     }
-
   }
+  const REGEX_PASSWORD = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/gm;
 
-  const switchMode = (e) => {
-    e.preventDefault()
-    setIsRegisterd(isRegisterd => !isRegisterd)
+  const formik = useFormik(
+    {
+      initialValues: pathName === '/login' ? dataForm : {...dataForm, name: ''},
+      validateOnBlur: true,
+      onSubmit,
+      validationSchema: yup.object({
+        ...(pathName === '/register' ? {name: yup.string().min(3,"Please enter your real name").required()} : null),
+        email: yup.string().email("Please enter a valid email address").required(),
+        password: yup.string().matches(REGEX_PASSWORD,'Please enter a strong password').required()
+      })
+  });
+
+  console.log(formik);
+
+  // const handleSubmit = (e) => {
+  //   e.preventDefault();
+
+  //   if(isRegistered) {
+  //     dispatch(loginAccount(dataForm, history))
+  //     setVerify(true)
+  //   } else {
+  //     dispatch(createAccount(dataForm, history));
+  //   }
+
+  // }
+
+  const switchMode = () => {
+    if(pathName === '/login') {
+      history.push('/register')
+    } else {
+      history.push('/login')
+    }
   }
 
   return (
     <div className="form_container_auth">
-      <form onSubmit={ handleSubmit } >
-        <h2> {isRegisterd ? 'LOGIN' : 'REGISTER'}</h2>
+      <form onSubmit={ formik.handleSubmit } >
+        <h2> {pathName === '/login' ? 'LOGIN' : 'REGISTER'}</h2>
         { 
-          !isRegisterd && (
+          pathName === '/register' && (
             <div className="form-item">
               <label htmlFor="name">Name</label>
-              <input type="text" name="name" value={dataForm.name} onChange={(e) => setDataForm({...dataForm, name: e.target.value}) } />
+              <input type="text" name="name" value={formik.values.name} onChange={formik.handleChange} placeholder="Enter Name"/>
+              {
+                (formik.touched && formik.errors.name) && (<><p className="field_error">{formik.errors.name}</p></>)
+              }
             </div>
           )
         }
         <div className="form-item">
           <label htmlFor="email">Email</label>
-          <input type="text" name="email" value={dataForm.email} onChange={(e) => setDataForm({...dataForm, email: e.target.value})} required/>
+          <input type="text" name="email" value={formik.values.email} onChange={formik.handleChange} placeholder="Enter Email" />
+          {
+            (formik.touched && formik.errors.email) && (<><p className="field_error">{formik.errors.email}</p></>)
+          }
         </div>
 
         <div className="form-item">
           <label htmlFor="password">Password</label>
-          <input type="password" name="password" autoComplete="on" value={dataForm.password} onChange={(e) => setDataForm({...dataForm, password: e.target.value})} required/>
+          <input type="password" name="password" autoComplete="on" value={formik.values.password} onChange={formik.handleChange} placeholder="Enter Password" />
+          {
+            (formik.touched && formik.errors.password) && (<><p className="field_error">{formik.errors.password}</p></>)
+          }
         </div>
 
         <div className="container_form_button">
           {
-            verify ? <ClipLoader /> : <input type="submit" value={isRegisterd ? 'Login' : 'Register'} />
+            verify ? <ClipLoader /> : <input type="submit" value={pathName === '/login' ? 'Login' : 'Register'} />
           }
-          <input type="button"  onClick={ switchMode } value={ isRegisterd ? 'Not registerd ? Sign-up' : 'Already signup? Log-in' } />
+          <input type="button"  onClick={ switchMode } value={ pathName === '/login' ? 'Not registerd ? Sign-up' : 'Already signup? Log-in' } />
         </div>
       </form>
     </div>

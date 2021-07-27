@@ -1,6 +1,7 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom';
 import Form from '../../components/Form/Form';
+import Header from '../../components/Header/Header.js';
 
 const Create = () => {
 
@@ -8,7 +9,7 @@ const Create = () => {
   
   return (
     <>
-      <h1>CREATE PAGE</h1>
+      <Header />
       <button onClick={() => {history.push('/')}}>Back</button>
       <Form />
     </>

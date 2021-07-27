@@ -2,7 +2,8 @@
 export default (state = {auth: null}, action) => {
   switch (action.type) {
     case 'CREATE_USER':
-      return action?.data;
+      localStorage.setItem('user',JSON.stringify(action.data));
+      return {...state, auth: action?.data}
     case 'LOGIN_USER':
       localStorage.setItem('user',JSON.stringify(action.data));
       return {...state, auth: action?.data};

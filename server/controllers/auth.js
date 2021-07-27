@@ -14,8 +14,18 @@ export const createUser = async (req,res) => {
   const hashedPw =  await bycript.hash(password,15);
 
   const newUser = new User({name, email, password: hashedPw});
-  console.log(newUser);
+
   const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'test', { expiresIn: '1h' })
+
+  //COOKIE OPTIONS
+  const option = {
+    expires: new Date(Date.now() + 86400000),
+    secure: true,
+    httpOnly: true,
+  };
+  //CREATE COOKIE
+  
+  res.cookie('jwt',token,option);
 
   try {
 
@@ -49,7 +59,7 @@ export const loginUser = async (req,res) => {
 
     //COOKIE OPTIONS
     const option = {
-      expires: new Date(Date.now() + 3600000),
+      expires: new Date(Date.now() + 86400000),
       secure: true,
       httpOnly: true,
     };
@@ -61,7 +71,7 @@ export const loginUser = async (req,res) => {
     
   } catch (error) {
 
-    res.json({message: error.message});
+    //res.json({message: error.message});
 
   }
 
