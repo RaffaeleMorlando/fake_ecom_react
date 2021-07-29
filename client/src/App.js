@@ -10,7 +10,6 @@ import { Route, Switch} from "react-router-dom";
 const App = () => {
 
   return (
-    <>
       <Switch>
         {/* LOGIN */}
         <Route path="/login" exact component={ Login } />
@@ -25,7 +24,6 @@ const App = () => {
         {/* EDIT ITEM */}
         <Route path="/item/edit/:id" exact component={ Edit } />
       </Switch>
-    </>
   );
   
 }

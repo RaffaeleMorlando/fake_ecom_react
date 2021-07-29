@@ -1,6 +1,5 @@
 import express from 'express';
 import { getItems, createItem, updateItem, deleteItem, getItemById } from '../controllers/items.js'
-import auth from '../middleware/auth.js';
 
 const router = express.Router();
 

@@ -1,15 +1,46 @@
 // eslint-disable-next-line import/no-anonymous-default-export
-export default (state = {auth: null}, action) => {
+export default (state = {}, action) => {
   switch (action.type) {
     case 'CREATE_USER':
-      localStorage.setItem('user',JSON.stringify(action.data));
-      return {...state, auth: action?.data}
+      return {
+        ...state, 
+        isLogged: true,
+        isLoading: false,
+        auth: action?.data
+      }
+    case 'USER_CREATE_REQUEST':
+      return {
+        ...state,
+        isLoading: true
+      }
+    case 'USER_CREATE_FAILED':
+      return { 
+        ...state,  
+        isLogged: false,
+        isLoading: false, 
+        error: action.error 
+      };
+    case 'USER_LOGIN_REQUEST':
+      return {
+        ...state,
+        isLoading: true
+      }
     case 'LOGIN_USER':
-      localStorage.setItem('user',JSON.stringify(action.data));
-      return {...state, auth: action?.data};
+      return {
+        ...state, 
+        isLoading: false,
+        isLogged: true,
+        auth: action?.data
+      };
     case 'LOGOUT_USER':
-      localStorage.removeItem('user');
       return {...state, auth: action?.data};
+    case 'LOGIN_FAILED':
+      return { 
+        ...state,  
+        isLogged: false,
+        isLoading: false, 
+        error: action.error.message 
+      };
     default:
       return state;
   }

@@ -28,6 +28,13 @@ form {
         font-size: 12px;
     }
 
+    .login_error {
+        color: red;
+        font-size: 15px;
+        text-align: center;
+        padding: 10px;
+    }   
+
     .form-item {
         display: flex;
         flex-direction: column;

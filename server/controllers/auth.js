@@ -6,9 +6,9 @@ export const createUser = async (req,res) => {
 
   const { name, email, password } = req.body;
 
-  //Check if email already exists
   const userExist = await User.findOne({ email });
-  if(userExist) return res.json({message: 'User already exist'});
+  
+  if(userExist) return res.status(401).json({message: 'Email already exist'});
 
   //Hashing password
   const hashedPw =  await bycript.hash(password,15);
@@ -23,8 +23,8 @@ export const createUser = async (req,res) => {
     secure: true,
     httpOnly: true,
   };
+
   //CREATE COOKIE
-  
   res.cookie('jwt',token,option);
 
   try {
@@ -46,38 +46,35 @@ export const loginUser = async (req,res) => {
   const { email, password } = req.body;
 
   try {
-    //Check if users exist
+
     const userExist = await User.findOne({ email });
-    if(!userExist) return res.json({message: 'User doesn\'t exist'});
+    if(!userExist) return res.status(401).json({message: 'Email incorrect'});
 
-    //Check if password is correct
     const checkPw =  await bycript.compare(password,userExist.password);
-    if(!checkPw) return res.json({message: 'Password incorrect'});
+    if(!checkPw) return res.status(401).json({message: 'Password incorrect'});
 
-    //GENERATE TOKEN
     const token = jwt.sign({ email: userExist.email, id: userExist._id }, 'test', { expiresIn: '1h' })
 
-    //COOKIE OPTIONS
     const option = {
       expires: new Date(Date.now() + 86400000),
       secure: true,
       httpOnly: true,
     };
-    //CREATE COOKIE
-    
-    res.cookie('jwt',token,option);
 
+    res.cookie('jwt',token,option);
     res.status(201).json({name: userExist.name, id:userExist._id, token});
-    
+
   } catch (error) {
 
-    //res.json({message: error.message});
-
+    console.log(error);
+    
   }
+
 
 }
 
 export const logoutUser = async (req,res) => {
+
   try {
     res.status(202).clearCookie('jwt').json({message: 'ACCOUNT LOGOUT'})
   } catch (error) {

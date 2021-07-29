@@ -11,7 +11,7 @@ export const getItems = () => async (dispatch) =>  {
     dispatch({ type: 'FETCH', payload: data });
     dispatch({type: 'END_LOADING'})
   } catch (error) {
-    // dispatch({ type: 'ERROR', error });
+    dispatch({ type: 'ERROR', error });
     console.log(error.message);
   }
 }
