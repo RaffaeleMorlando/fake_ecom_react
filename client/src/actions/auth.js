@@ -11,7 +11,6 @@ export const createAccount = (newUser, history) => async(dispatch)  => {
   } catch (error) {
     console.log(error.response.data)
     dispatch({type: 'USER_CREATE_FAILED', error: error.response.data.message})
-    
   }
 };
 
