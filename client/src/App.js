@@ -7,7 +7,28 @@ import Edit from './containers/Edit/Edit.js';
 import Register from './containers/Register/Register';
 import { Route, Switch} from "react-router-dom";
 
+
+import jwt from "jsonwebtoken";
+import { useDispatch } from 'react-redux';
+import { logoutAccount } from './actions/auth';
+
 const App = () => {
+
+  const dispatch = useDispatch();
+
+  if(localStorage.getItem('user')){
+
+    jwt.verify(JSON.parse(localStorage.getItem('user')).token,'Yx392ldme0pwpq32x8hdb2ns4xzufj989l1sndhsv',function(err){
+
+      if(err){
+
+        dispatch(logoutAccount());
+
+      }
+      
+   });
+
+  }
 
   return (
       <Switch>

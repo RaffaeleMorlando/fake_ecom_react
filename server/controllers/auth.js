@@ -15,21 +15,28 @@ export const createUser = async (req,res) => {
 
   const newUser = new User({name, email, password: hashedPw});
 
-  const token = jwt.sign({ email: newUser.email, id: newUser._id }, 'test', { expiresIn: '1h' })
+  const token = jwt.sign(
+    { email: newUser.email, id: newUser._id },
+    process.env.JWT_SECRET, 
+    { expiresIn: '2h' }
+  )
 
   //COOKIE OPTIONS
-  const option = {
-    expires: new Date(Date.now() + 86400000),
-    secure: true,
-    httpOnly: true,
-  };
+  // const option = {
+  //   expires: new Date(Date.now() + 86400000),
+  //   secure: true,
+  //   httpOnly: true,
+  // };
 
   //CREATE COOKIE
-  res.cookie('jwt',token,option);
+  // res.cookie('jwt',token,option);
+
+  req.user = newUser;
 
   try {
 
     await newUser.save();
+
     res.status(201).json({newUser,token});
 
   } catch (error) {
@@ -53,15 +60,20 @@ export const loginUser = async (req,res) => {
     const checkPw =  await bycript.compare(password,userExist.password);
     if(!checkPw) return res.status(401).json({message: 'Password incorrect'});
 
-    const token = jwt.sign({ email: userExist.email, id: userExist._id }, 'test', { expiresIn: '1h' })
+    const token = jwt.sign(
+      {email: userExist.email, id: userExist._id }, process.env.JWT_SECRET, { expiresIn: '2h' }
+    )
 
-    const option = {
-      expires: new Date(Date.now() + 86400000),
-      secure: true,
-      httpOnly: true,
-    };
+    /**
+     *  @option expire 2h
+     */
+    // const option = {
+    //   expires: new Date(Date.now() + 7200000),
+    //   secure: true,
+    //   httpOnly: true,
+    // };
 
-    res.cookie('jwt',token,option);
+    // res.cookie('jwt',token,option);
     res.status(201).json({name: userExist.name, id:userExist._id, token});
 
   } catch (error) {
@@ -76,8 +88,12 @@ export const loginUser = async (req,res) => {
 export const logoutUser = async (req,res) => {
 
   try {
-    res.status(202).clearCookie('jwt').json({message: 'ACCOUNT LOGOUT'})
+
+    res.status(202).json('LOGOUT')
+
   } catch (error) {
+
     res.json(error.message)
+
   }
 }

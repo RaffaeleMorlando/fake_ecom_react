@@ -1,7 +1,7 @@
 import React from 'react';
 import ClipLoader from 'react-spinners/ClipLoader';
 import { useDispatch, useSelector } from 'react-redux';
-import { createAccount, loginAccount } from '../../../actions/auth.js';
+import { createAccount, loginAccount, resetErrorForm } from '../../../actions/auth.js';
 import { useHistory, useLocation } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
@@ -19,8 +19,10 @@ const FormAuth = () => {
  
   const onSubmit = () => {
     if(pathName === '/login') {
+      console.log('LOGIN');
       dispatch(loginAccount(formik.values, history))
     } else {
+      console.log('REGISTER');
       dispatch(createAccount(formik.values, history));
     }
   }
@@ -38,14 +40,14 @@ const FormAuth = () => {
       })
   });
     
-
   const switchMode = () => {
+    dispatch(resetErrorForm())
+    
     if(pathName === '/login') {
       history.push('/register')
-      // *** AGGIUNGERE DISPATCH PER ELIMINARE ERRORI QUANDO SI SWITCHA ***
+      
     } else {
       history.push('/login')
-      // *** AGGIUNGERE DISPATCH PER ELIMINARE ERRORI QUANDO SI SWITCHA ***
     }
   }
 

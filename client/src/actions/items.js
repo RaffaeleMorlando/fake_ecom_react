@@ -1,18 +1,12 @@
 import * as api from '../api/index.js';
 
-//Action creator
-// funzione che crea un action dall'api
-
-//Utilizzo di redux thunk, in quanto si effettua un azione asincrona e questo permette di utilizzare async await
 export const getItems = () => async (dispatch) =>  {
   try {
-    dispatch({type: 'LOADING'})
+    dispatch({type: 'START_FETCH'})
     const {data} = await api.getItems();
     dispatch({ type: 'FETCH', payload: data });
-    dispatch({type: 'END_LOADING'})
   } catch (error) {
-    dispatch({ type: 'ERROR', error });
-    console.log(error.message);
+    dispatch({ type: 'FETCH_ERROR', error });
   }
 }
 

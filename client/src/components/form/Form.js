@@ -16,7 +16,7 @@ const Form = () => {
   const currentId = useParams();
   console.log(currentId);
 
-  const items = useSelector(state => currentId ? state.items.items.find((item) => item._id === currentId.id) : null);
+  const items = useSelector(state => currentId ? state.items.products.find((item) => item._id === currentId.id) : null);
 
   useEffect(() => {
 

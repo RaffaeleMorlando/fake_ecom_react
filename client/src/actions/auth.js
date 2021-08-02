@@ -4,8 +4,8 @@ export const createAccount = (newUser, history) => async(dispatch)  => {
   try {
     dispatch({type: 'USER_CREATE_REQUEST'});
     const { data } = await api.createAccount(newUser);
-    localStorage.setItem('user',JSON.stringify(data));
     dispatch({type:'CREATE_USER', data});
+    localStorage.setItem('user',JSON.stringify(data));
     history.push('/');
 
   } catch (error) {
@@ -33,16 +33,21 @@ export const loginAccount = (user, history) => async(dispatch)  => {
 };
 
 export const logoutAccount = (history) => async (dispatch) => {
-    try {
 
-      const {data} = await api.logoutAccount();
-      localStorage.removeItem('user'); // or localStorage.clear();
-      dispatch({type: 'LOGOUT_USER', data});
+    try {
+      
+      // await api.logoutAccount();
+      localStorage.removeItem('user');
+      dispatch({type: 'LOGOUT_USER'});
       history.push('/login');
 
     } catch (error) {
 
-      console.log(error.message);
+      console.log(error.response);
 
     }
+}
+
+export const resetErrorForm = () => async (dispatch) => {
+  dispatch({type:'RESET_ERROR_FORM'})
 }

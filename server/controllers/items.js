@@ -10,7 +10,9 @@ export const getItems = async (req, res) => {
     res.status(200).json(items);
 
   } catch (error) {
+
     console.log(error.message)
+    
   }
 
 }

@@ -1,24 +1,27 @@
 import React , { useEffect } from 'react';
 import Header from '../../components/Header/Header.js';
 import Items from '../../components/Items/Items.js';
+import SideMenu from '../../components/SideMenu/SideMenu.js';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import ClipLoader from 'react-spinners/ClipLoader';
 
+import './Home.scss';
+
 const Home = () => {
 
-  const items = useSelector(state => state.items);
+  const {userInfo} = useSelector(state => state.auth);
 
   const history = useHistory();
 
   useEffect(() => {
 
-    if(items.status) {
+    if(!userInfo) {
 
       let timeout = setTimeout(() => {
         history.push('/login')
-      }, 5000);
+      }, 2000);
   
       return () => {
         clearTimeout(timeout);
@@ -26,19 +29,21 @@ const Home = () => {
 
     }
 
-  }, [history,items.status]);
+  }, [history,userInfo]);
 
   return (
     <>
       <Header />
-      <Items />
       {
-        items.status === 401 && (
-          <>
-            <h1>{items.data.message}</h1>
-            <ClipLoader />
-          </>
-        )
+        userInfo && ( 
+          <main>
+            <SideMenu />
+            <Items />
+          </main>
+      )
+      }
+      {
+        !userInfo && (<ClipLoader />)
       }
     </>
   )

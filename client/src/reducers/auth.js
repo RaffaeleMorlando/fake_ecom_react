@@ -6,7 +6,7 @@ export default (state = {}, action) => {
         ...state, 
         isLogged: true,
         isLoading: false,
-        auth: action?.data
+        userInfo: {...action.data.newUser,token: action.data.token}
       }
     case 'USER_CREATE_REQUEST':
       return {
@@ -19,7 +19,7 @@ export default (state = {}, action) => {
         isLogged: false,
         isLoading: false, 
         error: action.error 
-      };
+      }
     case 'USER_LOGIN_REQUEST':
       return {
         ...state,
@@ -30,17 +30,23 @@ export default (state = {}, action) => {
         ...state, 
         isLoading: false,
         isLogged: true,
-        auth: action?.data
-      };
+        userInfo: action?.data
+      }
     case 'LOGOUT_USER':
-      return {...state, auth: action?.data};
+      return {
+
+      }
     case 'LOGIN_FAILED':
       return { 
         ...state,  
         isLogged: false,
         isLoading: false, 
         error: action.error.message 
-      };
+      }
+    case 'RESET_ERROR_FORM':
+      return {
+
+      }
     default:
       return state;
   }

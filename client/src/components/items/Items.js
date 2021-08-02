@@ -10,7 +10,6 @@ import './Items.scss'
 const Items = () => {
 
   const items = useSelector(state => state.items);
-  console.log(items);
 
   const dispatch = useDispatch();
   const [currentId, setCurrentId] =  useState(null);
@@ -22,26 +21,24 @@ const Items = () => {
   
   return (
     <div className="main_container">
-      <div className="items_container">
-        {
-          items.isLoading && (
-            <>
-              <ClipLoader />
-            </>
-          )
-        }
-        {
-          items.items && (
-            <>
-              {
-                items.items.map((item) => {
-                  return <Item setCurrentId={setCurrentId} key={item._id} item={item}/>
-               })
-              }
-            </>
-          )
-        }
-      </div>
+      {
+        items.isLoading && (
+          <>
+            <ClipLoader />
+          </>
+        )
+      }
+      {
+        items.products && (
+          <>
+            {
+              items.products.map((item) => {
+                return <Item setCurrentId={setCurrentId} key={item._id} item={item}/>
+              })
+            }
+          </>
+        )
+      }
     </div>
   )
 }

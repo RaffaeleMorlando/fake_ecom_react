@@ -1,9 +1,8 @@
 .main_container {
-    display: flex;
     border: 1px solid orange;
-}
-.items_container {
+    overflow: auto;
+    height: calc(100vh - 100px);
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    width: 80%;
+    width: calc(100% - 200px);
 }
